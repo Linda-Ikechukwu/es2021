@@ -1,74 +1,70 @@
+// string replace all
 const str = "java is not javascript";
 const newStr = str.replace("java", "type");
 console.log(newStr);
 const newStrAll = str.replaceAll("java", "type");
 console.log(newStrAll);
 
-class Person {
+// class private methods/fields/accessors
+class Password {
     #salt
-    #someSecret
+    #password
+    #hiddenSecret 
 
-    get #secret() {
-        return this.#someSecret
+    get #secret(){
+        return this.#hiddenSecret
     }
-    
-    set #secret(secret) {
-        this.#someSecret = secret
+    set #secret(password){
+        this.#hiddenSecret = password
     }
-    getSecret() {
-        return this.#secret
+
+    #getSecret() {
+        return this.#hiddenSecret
     }
-    constructor() {
+
+    constructor(password) {
         this.#salt = Math.random()
-        this.#secret = "MySecret";
-        // console.log(this.#salt + this.#secret)
-      }
+        this.#password = password;
+        this.#secret = this.#salt + this.#password
+    }
 }
 
-const p = new Person('michael')
-// console.log(p.setSecret('mysecret'))
-console.log(p.getSecret())
+const p = new Password('password')
+// console.log(p.#getSecret()) //will not work
 
-// const promise1 = new Promise((reject) => setTimeout(reject, 50, 'not allowed!'))
-// const promise1 = Promise.reject("rejected!!!");
-
-// const promise2 = new Promise((resolve) => setTimeout(resolve, 100, 'Speedy'));
-// const promise3 = new Promise((resolve) => setTimeout(resolve, 500, 'slowwwwwww'));
-
-// const promises = [promise1, promise2, promise3];
+// Promise.any / Promise.race
+// const promise1 = new Promise((reject) => setTimeout(reject, 40, 'not allowed!'))
+const promise1 = Promise.reject("rejected!!!");
+const promise2 = new Promise((resolve) => setTimeout(resolve, 100, 'Speedy'));
+const promise3 = new Promise((resolve) => setTimeout(resolve, 500, 'slowwwwwww'));
+const promises = [promise1, promise2, promise3];
 // Promise.race(promises).then((value) => console.log(value));
-//vs
-// Promise.any(promises).then((value) => console.log(value)); //logs "quick"
+Promise.any(promises).then((value) => console.log(value));
 
-
-//Logical Assignment Operator
-x &&= y
-x && (x = y)
-if(x) {
-    x = y
-}
-
-let someValue = "hel";
+// Logical Assignment Operator
+// x &&= y
+let someValue = "";
 let valid = true;
 valid &&= someValue !== "";
 valid &&= someValue.length > 2;
-// valid = valid && value !== "";
-// valid = valid && value.length > 2;
-console.log("some Value: ", valid);
+console.log(valid)
 
-var songLyrics = false;
-var errorMsg = "This song has no lyrics!";
+// x ||= y
+// falsy!
+let songLyrics = false;
+let errorMsg = "This song does not have Lyrics!"
 songLyrics ||= errorMsg
 console.log(songLyrics)
 
+// ?? === if null or undefined
+// x ??= y
 function config(options) {
-    options.duration ??= 100;
+    options.duration ??= 100
     options.speed ??= 25;
     console.log(options)
 }
-  
-config({ duration: null });
-config({ speed: undefined });
-config({}); 
-config({ duration: 9999 })
-config({ duration: 9999, speed: 555 })
+config({})
+config({ duration: null })
+config({ duration: 200, speed: 50 })
+config({ duration: 0 })
+config({ duration: '0' })
